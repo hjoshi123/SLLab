@@ -2,7 +2,7 @@ from flask import Flask, request, render_template, url_for, session, redirect
 
 app = Flask(__name__)
 
-items = [
+data = [
     { "name": "Xbox One S" },
     { "name": "PS4 Pro" },
     { "name": "PS4 Slim" }
@@ -10,26 +10,29 @@ items = [
 
 @app.route("/", methods=["GET"])
 def index():
-    if session.get(items[0]["name"]) or session.get(items[1]["name"]) or session.get(items[2]["name"]):
+    if session.get(data[0]["name"]) or session.get(data[1]["name"]) or session.get(data[2]["name"]):
         store = [
-            { items[0]["name"]: session[items[0]["name"]] },
-            { items[1]["name"]: session[items[1]["name"]] },
-            { items[2]["name"]: session[items[2]["name"]] }
+            { data[0]["name"]: session.get(data[0]["name"]) },
+            { data[1]["name"]: session.get(data[1]["name"]) },
+            { data[2]["name"]: session.get(data[2]["name"]) }
         ]
     else:
-        store = []
-    data = [
-        { "items": items },
-        { "store": store }
-    ]
-    print (data)
-    return render_template("index.html", data=data)
+        session[data[0]["name"]] = 0
+        session[data[1]["name"]] = 0
+        session[data[1]["name"]] = 0
+        store = [
+            { data[0]["name"]: session.get(data[0]["name"]) },
+            { data[1]["name"]: session.get(data[1]["name"]) },
+            { data[2]["name"]: session.get(data[2]["name"]) }
+        ]
+    print (store)
+    return render_template("index.html", data=data, store=store)
 
 @app.route("/submit", methods=["POST"])
 def submit():
     select = request.form.get("opt")
     quantity = request.form.get("quan")
-
+    print (select)
     if select not in session:
         session[select] = int (quantity)
     else:
@@ -39,13 +42,16 @@ def submit():
 @app.route("/cart", methods=["POST"])
 def cart():
     cart = [
-        { items[0]["name"]: session[items[0]["name"]] },
-        { items[1]["name"]: session[items[1]["name"]] },
-        { items[2]["name"]: session[items[2]["name"]] }
+        { data[0]["name"]: session[data[0]["name"]] },
+        { data[1]["name"]: session[data[1]["name"]] },
+        { data[2]["name"]: session[data[2]["name"]] }
     ]
     msg = { "status" : 1, "cart": cart }
     return render_template("cart.html", msg=msg)
-    
+
+@app.route("/checkout", methods=["GET", "POST"])
+def checkout():
+    print ('Hello')    
 
 # Always keep debug=True to debug Internal Server Error and other verbose logging
 if __name__ == "__main__":

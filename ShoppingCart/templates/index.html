@@ -18,8 +18,8 @@
         <form method="POST" action="{{ url_for('submit') }}">
             <select name="opt">
                 <option disabled>Select one item for moving further</option>
-                {% for o in data['items'] %}
-                    <option value="{{ o.name }}">{{ o.name }}</option>
+                {% for o in data %}
+                    <option value="{{ o['name'] }}">{{ o['name'] }}</option>
                 {% endfor %}
             </select>
             &nbsp; &nbsp;
@@ -30,11 +30,18 @@
             </select>
             <br />
             <br />
-            <button type="submit" class="btn-def">Checkout</button>
+            <button type="submit" class="btn-def">Add to Cart</button>
             <br />
             <br />
-            <a href="{{ url_for('cart') }}">View Your Cart</a>
         </form>
+        <form action="{{ url_for('checkout') }}" method="GET">
+            <button type="submit" class="btn-def">Checkout</button>
+        </form>
+        <a href="{{ url_for('cart') }}">View Your Cart</a>
+    </div>
+
+    <div>
+        <h2>{{ store[0]['Xbox One S'] }}</h2>
     </div>
 </body>
 </html>
