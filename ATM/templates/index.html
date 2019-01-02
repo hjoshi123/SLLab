@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>ATM</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="{{url_for('static', filename='main.css')}}" />
+    <script src="{{url_for('static', filename='main.js')}}"></script>
+</head>
+<body>
+    <h1>Welcome to ATM application</h1>
+
+    <h3>Your savings account balance is {{balance}}</h3>
+
+    {% if msg != "" %}
+        <p id="error"> {{msg}} </p>
+    {% endif %}
+
+    <form action="{{url_for('index')}}" method="POST" id="atm">
+        Amount: <input type="number" name="amount" required /> <br /> <br />
+        <input type="submit" name="action" class="btn-md" value="Withdraw" onclick="return validateForm(this)" />
+        <input type="submit" name="action" class="btn-md" value="Deposit" onclick="return validateForm(this)" />
+    </form>
+    
+</body>
+</html>
