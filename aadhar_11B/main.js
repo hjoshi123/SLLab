@@ -53,4 +53,4 @@ function mouseover() {
       row.insertCell(2).innerHTML = tests;
     }
   }
-};
+}
